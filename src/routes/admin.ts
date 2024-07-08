@@ -1,5 +1,7 @@
-import { getUsers, getUserById } from './db';
-import type { User } from './db';
+import { Elysia } from 'elysia';
+import { html } from '@elysiajs/html';
+import { getUsers, getUserById } from '../db';
+import type { User } from '../db';
 
 const userListItem = (user: User): string => `
   <div>
@@ -10,7 +12,7 @@ const userListItem = (user: User): string => `
   </div>
 `;
 
-export const adminPage = (): string => {
+const adminPage = (): string => {
   const userList = getUsers().map(user => userListItem(user)).join('');
   return `<!DOCTYPE html>
 <html lang="en">
@@ -38,18 +40,22 @@ export const adminPage = (): string => {
 </html>`;
 };
 
-export const userDetails = (id: number): string => {
-    const user = getUserById(id);
-    if (!user) return 'User not found';
-    return `
-        <div>
-            <h3>User Details</h3>
-            <p>ID: ${user.id}</p>
-            <p>Name: ${user.name}</p>
-            <p>Email: ${user.email}</p>
-            <button hx-get="/users" hx-target="this" hx-swap="outerHTML">
-                Back to List
-            </button>
-        </div>
-    `;
-};
+export const adminRoutes = (app: Elysia) =>
+  app
+    .get('/admin', () => adminPage())
+    .get('/admin/users/:id', ({ params }) => userDetails(Number(params.id)));
+
+export function userDetails(id: number): string {
+  const user = getUserById(id);
+  if (!user) {
+    return '<div>User not found</div>';
+  }
+  return `
+    <div>
+      <h2>User Details</h2>
+      <p>ID: ${user.id}</p>
+      <p>Name: ${user.name}</p>
+      <p>Email: ${user.email}</p>
+    </div>
+  `;
+}
