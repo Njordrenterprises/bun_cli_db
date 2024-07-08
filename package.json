@@ -1,0 +1,22 @@
+{
+  "name": "elysia-001",
+  "module": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun run src/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.1.6",
+    "unocss": "^0.58.5"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@elysiajs/html": "^1.0.2",
+    "@elysiajs/static": "^1.0.3",
+    "@elysiajs/swagger": "^1.0.5",
+    "elysia": "^1.0.27",
+    "htmx.org": "^1.9.12"
+  }
+}
