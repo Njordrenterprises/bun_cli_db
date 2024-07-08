@@ -6,10 +6,11 @@ To install dependencies:
 bun install
 ```
 
-To run:
+To build and run:
 
 ```bash
-bun run index.ts
+bun run build
+bun run start
 ```
 
-This project was created using `bun init` in bun v1.1.18. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+This project uses Elysia with Bun runtime, Tailwind CSS, and DaisyUI.

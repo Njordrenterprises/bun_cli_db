@@ -3,11 +3,17 @@
   "module": "src/index.ts",
   "type": "module",
   "scripts": {
-    "start": "bun run src/index.ts"
+    "build": "postcss src/input.css -o public/styles.css",
+    "dev": "tailwindcss -i ./src/input.css -o ./public/styles.css --watch",
+    "start": "bun run build && bun run --hot src/index.ts"
   },
   "devDependencies": {
     "@types/bun": "^1.1.6",
-    "unocss": "^0.58.5"
+    "autoprefixer": "^10.4.19",
+    "daisyui": "^4.12.10",
+    "postcss": "^8.4.39",
+    "postcss-cli": "^11.0.0",
+    "tailwindcss": "^3.4.4"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
