@@ -1,16 +1,16 @@
 import { Elysia } from 'elysia';
 import { html } from '@elysiajs/html';
-import { getUsers, getUserById } from '../db';
+import { getUsers, getUserById, deleteUser } from '../db';
 import type { User } from '../db';
 
 const userListItem = (user: User): string => `
   <div class="card bg-base-200 shadow-xl mb-4">
-    <div class="card-body">
+    <div class="card-body flex flex-col items-center">
       <h2 class="card-title">ID: ${user.id}, Name: ${user.name}</h2>
       <p>Email: ${user.email}</p>
-      <div class="card-actions justify-end">
-        <button class="btn btn-primary" hx-get="/users/${user.id}" hx-target="this" hx-swap="outerHTML">
-          View Details
+      <div class="card-actions mt-4 flex justify-center w-full">
+        <button class="btn btn-error" hx-delete="/users/${user.id}" hx-target="closest .card" hx-swap="outerHTML">
+          Delete
         </button>
       </div>
     </div>
@@ -61,21 +61,8 @@ export const adminRoutes = (app: Elysia) =>
   app
     .use(html())
     .get('/admin', () => adminPage())
-    .get('/admin/users/:id', ({ params }) => userDetails(Number(params.id)));
-
-export function userDetails(id: number): string {
-  const user = getUserById(id);
-  if (!user) {
-    return '<div class="alert alert-error">User not found</div>';
-  }
-  return `
-    <div class="card bg-base-200 shadow-xl">
-      <div class="card-body">
-        <h2 class="card-title text-2xl mb-4">User Details</h2>
-        <p><strong>ID:</strong> ${user.id}</p>
-        <p><strong>Name:</strong> ${user.name}</p>
-        <p><strong>Email:</strong> ${user.email}</p>
-      </div>
-    </div>
-  `;
-}
+    .delete('/users/:id', ({ params }) => {
+      const userId = Number(params.id);
+      deleteUser(userId);
+      return '';
+    });

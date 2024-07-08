@@ -27,3 +27,7 @@ export function getUsers(): User[] {
 export function getUserById(id: number): User | undefined {
   return db.query('SELECT * FROM users WHERE id = ?').get(id) as User | undefined;
 }
+
+export function deleteUser(id: number): void {
+  db.query('DELETE FROM users WHERE id = ?').run(id);
+}
